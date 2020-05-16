@@ -15,8 +15,8 @@ def equality(x):
 
 cons = {'type':'eq', 'fun': equality}
 
-x0=[0.1944,0.4056,0.4000]
+x0=[0.1944,0.4056,0.4000]               #resultados del ejercicio hechos a mano con lagrange 
 
-bounds=[[0,1],[0,1],[0,1]]
+bounds=[[0,1],[0,1],[0,1]]              #limites de cada xn respestando la igualdad sum(xn)=1
 
 print(minimize(objective,x0,constraints=cons,method='SLSQP',bounds=bounds))
