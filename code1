@@ -1,0 +1,55 @@
+import yfinance as yf
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.interpolate import lagrange
+
+ypf = yf.Ticker('YPF').history(start='2015-12-10', end='2019-12-10',interval='1mo')
+btc= yf.Ticker('BTC-USD').history(start='2015-12-10', end='2019-12-10',interval='1mo')
+eth=yf.Ticker('ETH-USD').history(start='2015-12-10', end='2019-12-10',interval='1mo')
+
+ypf_precio=pd.DataFrame(ypf.Close)
+btc_precio=pd.DataFrame(btc.Close)
+eth_precio=pd.DataFrame(eth.Close)
+
+ypf_precio.columns=['YPF']
+btc_precio.columns=['BTC']
+eth_precio.columns=['ETH']
+
+ypf_returns=ypf_precio.pct_change()
+btc_returns=btc_precio.pct_change()
+eth_returns=eth_precio.pct_change()
+
+ypf_mean=ypf_returns.mean()
+btc_mean=btc_returns.mean()
+eth_mean=eth_returns.mean()
+
+means=pd.concat([ypf_mean,btc_mean,eth_mean])
+
+ypf_std=ypf_returns.std()
+btc_std=btc_returns.std()
+eth_std=eth_returns.std()
+
+ypf_var=ypf_returns.var()
+btc_var=btc_returns.var()
+eth_var=eth_returns.var()
+
+std=pd.concat([ypf_std,btc_std,eth_std])
+var=pd.concat([ypf_var,btc_var,eth_var])
+
+total=pd.concat([means,std,var],axis=1)
+total_df=pd.DataFrame(total)
+total_df.columns=['Mean','STD','VAR']
+print(total_df)
+print(' ')
+
+#covariance
+covariance=pd.concat([ypf_returns,btc_returns,eth_returns],axis=1)
+co2=covariance.cov()
+#print(co2)
+#print('')
+#matrices
+activos=[[1,2,3]]
+
+activos2=[[1],[2],[3]]
+co3=co2.to_numpy()
